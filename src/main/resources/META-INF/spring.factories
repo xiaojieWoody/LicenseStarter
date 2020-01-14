@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.mylicense.test.ExampleAutoConfigure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.mylicense.config.LicenseAutoConfigure
