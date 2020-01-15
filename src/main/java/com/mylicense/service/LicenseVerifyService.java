@@ -9,6 +9,7 @@ import com.mylicense.license.param.LicenseVerifyParam;
 import de.schlichtherle.license.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.StringUtils;
@@ -23,12 +24,19 @@ import java.util.prefs.Preferences;
 public class LicenseVerifyService {
 
     /**
+     * 客户应用配置的License文件路径
+     */
+    @Value("${mylicense.licensePath:}")
+    private String licensePath;
+
+    /**
      * 传入License路径
      * 校验License证书
      */
-    public ResMsg verify(String licensePath){
+    public ResMsg verify(){
         LicenseVerifyParam param = new LicenseVerifyParam();
         LicenseInfoProperties licenseConfig = SpringContextUtils.getBeanByClass(LicenseInfoProperties.class);
+        // 客户应用配置License文件路径不为空
         if(!StringUtils.isEmpty(licensePath)) {
             licenseConfig.setLicensePath(licensePath);
         }

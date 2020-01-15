@@ -20,7 +20,7 @@ public class LicenseRunnable implements Runnable{
         // 事先约定License文件存储在服务器的目录
         try {
             log.info("+++++++++++License Verify Begin++++++++++++");
-            licenseVerifyService.verify(licenseConfig.getLicensePath());
+            licenseVerifyService.verify();
             log.info("+++++++++++License Verify End++++++++++++");
         } catch (Exception e) {
             log.error("License文件验证异常.....", e);
