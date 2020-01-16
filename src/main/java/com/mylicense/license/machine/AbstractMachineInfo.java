@@ -112,7 +112,7 @@ public abstract class AbstractMachineInfo {
             }
             return sb.toString().toUpperCase();
         } catch (SocketException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
 
         return null;

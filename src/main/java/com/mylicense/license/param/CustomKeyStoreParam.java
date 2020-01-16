@@ -27,14 +27,13 @@ public class CustomKeyStoreParam extends AbstractKeyStoreParam {
     }
 
     /**
-     * 复写de.schlichtherle.license.AbstractKeyStoreParam的getStream()方法
      * 用于将公私钥存储文件存放到其他磁盘位置而不是项目中
      * @return
      * @throws IOException
      */
     @Override
     public InputStream getStream() throws IOException {
-
+        // 获取公钥
         final InputStream in = LicenseVerifyService.class.getResourceAsStream(storePath);
         if (null == in){
             throw new FileNotFoundException(storePath);

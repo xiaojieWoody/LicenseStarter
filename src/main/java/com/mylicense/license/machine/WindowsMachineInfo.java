@@ -6,15 +6,21 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class WindowsMachineInfo extends AbstractMachineInfo {
+
+    /**
+     * 获取mac地址
+     * @return
+     * @throws Exception
+     */
     @Override
     protected List<String> getMacAddress() throws Exception {
         List<String> result = null;
 
-        //1. 获取所有网络接口
+        //获取所有网络接口
         List<InetAddress> inetAddresses = getLocalAllInetAddress();
 
         if (inetAddresses != null && inetAddresses.size() > 0) {
-            //2. 获取所有网络接口的Mac地址
+            //获取所有网络接口的Mac地址
             result = inetAddresses.stream().map(this::getMacByInetAddress).distinct().collect(Collectors.toList());
         }
 
@@ -40,9 +46,13 @@ public class WindowsMachineInfo extends AbstractMachineInfo {
         return result;
     }
 
+    /**
+     * CPU序列号
+     * @return
+     * @throws Exception
+     */
     @Override
     protected String getCPUSerial() throws Exception {
-        // CPU序列号
         String serialNumber = "";
 
         //使用WMIC获取CPU序列号
@@ -62,9 +72,13 @@ public class WindowsMachineInfo extends AbstractMachineInfo {
         return serialNumber;
     }
 
+    /**
+     * 主板序列号
+     * @return
+     * @throws Exception
+     */
     @Override
     protected String getMainBoardSerial() throws Exception {
-        // 主板序列号
         String serialNumber = "";
 
         //使用WMIC获取主板序列号

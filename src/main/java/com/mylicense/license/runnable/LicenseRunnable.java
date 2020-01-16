@@ -1,6 +1,5 @@
 package com.mylicense.license.runnable;
 
-import com.mylicense.common.ResMsg;
 import com.mylicense.common.SpringContextUtils;
 import com.mylicense.config.LicenseInfoProperties;
 import com.mylicense.service.LicenseVerifyService;
@@ -14,7 +13,6 @@ public class LicenseRunnable implements Runnable{
      */
     @Override
     public void run() {
-        ResMsg verify = null;
         LicenseVerifyService licenseVerifyService = SpringContextUtils.getBeanByClass(LicenseVerifyService.class);
         LicenseInfoProperties licenseConfig = SpringContextUtils.getBeanByClass(LicenseInfoProperties.class);
         // 事先约定License文件存储在服务器的目录
