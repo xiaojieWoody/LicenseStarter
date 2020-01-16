@@ -62,7 +62,7 @@ public class LinuxMachineInfo extends AbstractMachineInfo {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String res = reader.readLine();
             if(res != null) {
-                serialNumber = res;
+                serialNumber = res.trim();
             }
             reader.close();
         }
@@ -88,7 +88,7 @@ public class LinuxMachineInfo extends AbstractMachineInfo {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String res = reader.readLine();
             if(res != null) {
-                serialNumber = res;
+                serialNumber = res.trim();
             }
             reader.close();
         }
