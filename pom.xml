@@ -131,6 +131,7 @@
 	</dependencies>
 
 	<build>
+<!--		<finalName>mylicense-starter</finalName>-->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -144,6 +145,107 @@
 					<nonFilteredFileExtensions>
 						<nonFilteredFileExtension>keystore</nonFilteredFileExtension>
 					</nonFilteredFileExtensions>
+				</configuration>
+			</plugin>
+
+			<!-- 代码混淆插件 -->
+			<plugin>
+				<dependencies>
+					<dependency>
+						<groupId>net.sf.proguard</groupId>
+						<artifactId>proguard-base</artifactId>
+						<version>6.0.2</version>
+						<scope>runtime</scope>
+					</dependency>
+				</dependencies>
+				<groupId>com.github.wvengen</groupId>
+				<artifactId>proguard-maven-plugin</artifactId>
+				<version>2.0.14</version>
+				<executions>
+					<execution>
+						<!-- 打包的时候混淆 -->
+						<phase>package</phase>
+						<goals>
+							<!-- 使用插件的混淆功能 -->
+							<goal>proguard</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- 是否将生成的PG文件安装部署 -->
+					<attach>true</attach>
+					<!-- 是否混淆 -->
+					<obfuscate>true</obfuscate>
+					<!-- 指定生成文件分类 -->
+					<attachArtifactClassifier>pg</attachArtifactClassifier>
+					<!-- ProGuard配置参数(可引用cfg配置文件) -->
+					<options>
+						<!-- JDK目标版本1.8-->
+						<option>-target 1.8</option>
+						<!-- 不做收缩（删除注释、未被引用代码） -->
+						<option>-dontshrink</option>
+						<!-- 不做优化（变更代码实现逻辑） -->
+						<option>-dontoptimize</option>
+						<!-- 不路过非公用类文件及成员 -->
+						<option>-dontskipnonpubliclibraryclasses</option>
+						<option>-dontskipnonpubliclibraryclassmembers</option>
+						<!--不用大小写混合类名机制-->
+						<option>-dontusemixedcaseclassnames</option>
+						<!-- 优化时允许访问并修改有修饰符的类和类的成员 -->
+						<option>-allowaccessmodification</option>
+						<!-- 确定统一的混淆类的成员名称来增加混淆 -->
+						<option>-useuniqueclassmembernames</option>
+						<!-- 不混淆包名 -->
+<!--						<option>-keeppackagenames</option>-->
+						<option>-keeppackagenames com.mylicense.api</option>
+						<option>-adaptclassstrings</option>
+						<!-- <option>-keepdirectories</option> -->
+						<!-- 不混淆所有特殊的类 -->
+						<option>-keepattributes
+							Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,LocalVariable*Table,*Annotation*,Synthetic,EnclosingMethod</option>
+						<!-- This option will save all original methods parameters in files defined
+                            in -keep sections, otherwise all parameter names will be obfuscate. -->
+						<option>-keepparameternames</option>
+						<option>-keepclassmembers class * {
+							@org.springframework.beans.factory.annotation.Autowired *;
+							@org.springframework.beans.factory.annotation.Value *;
+							}
+						</option>
+						<!-- 混淆这个包下的类  此处需要更改为自己需要混淆的包名-->
+						<option>-keep class !com.mylicense.** { *; }</option>
+<!--						<option>-keep class !com.mylicense.license.* { *; }</option>-->
+<!--						<option>-keep class !com.mylicense.service.* { *; }</option>-->
+
+						<!-- 不混淆main方法   此处需要更改为自己的启动类路径 -->
+<!--						<option>-keep class com.mylicense.MyLicenseStarterApplication { *; }</option>-->
+						<option>-keep class com.mylicense.config.LicenseAutoConfigure { *; }</option>
+						<option>-keep class com.mylicense.api.LicenseInit { *; }</option>
+
+						<!-- 不混淆所有的set/get方法-->
+						<option>-keepclassmembers public class * {void set*(***);*** get*();}</option>
+						<!-- 不混淆包中的所有类以及类的属性及方法，实体包，混淆了会导致ORM框架及前端无法识别 -->
+
+						<!-- 不对包类的类名进行混淆，但对类中的属性和方法混淆   -->
+						<!--<option>-keep class com.package.util.** </option>-->
+						<!-- <option>-keep class com.example.service.** </option>-->
+
+						<!-- 不混淆包下的所有类名，且类中的方法和属性也不混淆 -->
+						<!--<option>-keep class com.example.redis.** { *; }</option>
+                        <option>-keep class com.example.dao.** { *; }</option>-->
+						<!-- 无视跳过警告  因为修改代码的过程程序检测到有些文件不能更改就会报警告导致失败   如果对自己写的代码比较有信心的话可以直接无视 -->
+						<option>-dontwarn **</option>
+					</options>
+					<!--class 混淆后输出的jar包 -->
+					<outjar>${project.build.finalName}-pg.jar</outjar>
+					<!-- 混淆时需要引用的java库，这些库的类不会做混淆 -->
+					<libs>
+						<lib>${java.home}/lib/rt.jar</lib>
+						<lib>${java.home}/lib/jce.jar</lib>
+					</libs>
+					<!-- 需要做混淆的jar或目录 -->
+					<injar>classes</injar>
+					<!-- 输出目录 -->
+					<outputDirectory>${project.build.directory}</outputDirectory>
 				</configuration>
 			</plugin>
 
