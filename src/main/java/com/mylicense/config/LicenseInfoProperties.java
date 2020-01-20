@@ -14,7 +14,7 @@ public class LicenseInfoProperties {
     private String storePass;
     private String licensePath;
     private String publicKeysStorePath;
-    private String httpType;
+
 
     /**
      * 证书有效结束日期

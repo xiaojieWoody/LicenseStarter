@@ -19,10 +19,10 @@ public class LicenseInit {
         ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
                 new BasicThreadFactory.Builder().namingPattern("license-verify-schedule-pool-%d").daemon(true).build());
         // 单个线程周期执行License验证
-        ScheduledFuture<?> scheduledFuture = executorService.scheduleAtFixedRate(new LicenseRunnable(), 0, 1, TimeUnit.SECONDS);
+        ScheduledFuture<?> scheduledFuture = executorService.scheduleAtFixedRate(new LicenseRunnable(), 0, 5, TimeUnit.SECONDS);
         try {
             // 阻塞
-            Object o = scheduledFuture.get();
+            scheduledFuture.get();
         } catch (InterruptedException e) {
             log.error("",e);
         } catch (ExecutionException e) {
