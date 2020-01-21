@@ -12,6 +12,7 @@ import de.schlichtherle.xml.GenericCertificate;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.io.EOFException;
 import java.io.File;
@@ -140,18 +141,16 @@ public class CustomLicenseManager extends LicenseManager {
      * @return
      */
     private boolean checkIpAddress(List<String> expectedList, List<String> serverList){
-        if(expectedList != null && expectedList.size() > 0){
-            if(serverList != null && serverList.size() > 0){
-                for(String expected : expectedList){
-                    if(serverList.contains(expected.trim())){
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }else {
+        if(CollectionUtils.isEmpty(expectedList)) {
             return true;
         }
+        if(CollectionUtils.isEmpty(serverList)) {
+            return false;
+        }
+        if(serverList.containsAll(expectedList)) {
+            return true;
+        }
+        return false;
     }
 
     /**
